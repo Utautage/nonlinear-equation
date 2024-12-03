@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>正割法</title>
+        <script type="text/javascript">
+            // 正割法アルゴリズム（3EI No.21 福嶋孝太）
+            const epsilon = 1e-10;
+            const trueSolution = 2;
+            const f = x => x * x - 4;
+            function main() {
+                // let x0 = 0, x1 = 5; // (1)
+                let x0 = 0, x1 = 1e-5; // (2)
+
+                let k = 0;
+                let f_x0 = f(x0), f_x1 = f(x1);
+                let xNew;
+                let text = "";
+                do {
+                    xNew = x1 - f_x1 * (x1 - x0) / (f_x1 - f_x0);
+                    x0 = x1;
+                    f_x0 = f_x1;
+                    x1 = xNew;
+                    f_x1 = f(xNew);
+                    text += `${Math.abs(trueSolution - x1).toFixed(20)}<br>`;
+                    k++;
+                } while (Math.abs(x1 - x0) > epsilon);
+                text += `近似解：${x1.toFixed(20)}<br>繰り返し回数：${k}回<br>提出：福嶋孝太<br>`;
+                document.getElementById("text").innerHTML = text;
+            }
+        </script>
+    </head>
+    <body onLoad="main()">
+        <div id="text"></div>
+    </body>
+</html>

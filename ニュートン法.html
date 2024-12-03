@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>ニュートン法</title>
+        <script type="text/javascript">
+            // ニュートン法アルゴリズム（3EI No.21 福嶋孝太）
+            const epsilon = 1e-10;
+            const trueSolution = 2;
+            const f = x => x * x - 4;
+            const delta_f = x => 2 * x;
+            function main() {
+                // let x1 = 5; // (1)
+                let x1 = 1e-5; // (2)
+
+                let k = 0;
+                let x0;
+                let text = "";
+                do {
+                    x0 = x1;
+                    x1 = x0 - f(x0) / delta_f(x0);
+                    text += Number(Math.abs(trueSolution - x1)).toFixed(20) + "<br>";
+                    k++;
+                } while (Math.abs(x1 - x0) > epsilon);
+                text += `近似解：${Number(x1).toFixed(20)}<br>繰り返し回数：${k}回<br>提出：福嶋孝太<br>`;
+                document.getElementById("TEXT").innerHTML = text;
+            }
+        </script>
+    </head>
+    <body onLoad="main()">
+        <div id="TEXT"></div>
+    </body>
+</html>

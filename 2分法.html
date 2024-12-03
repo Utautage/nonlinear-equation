@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>2分法</title>
+        <script type="text/javascript">
+            // 2分法アルゴリズム（3EI No.21 福嶋孝太）
+            const epsilon = 1e-10;
+            const trueSolution = 2;
+            const f = x => x * x - 4;
+            function main() {       
+                let a = 0, b = 5; // (1)
+                // let a = 0, b = 20; // (2)
+
+                let k = 0;
+                let f_a = f(a);
+                let c, f_c;
+                let alpha;
+                let text = "";
+                do {
+                    c = (a + b) / 2;
+                    f_c = f(c);
+                    if (f_a * f_c < 0) {
+                        b = c;
+                    } else {
+                        a = c;
+                        f_a = f_c;
+                    }
+                    alpha = (a + b) / 2;
+                    text += `${Math.abs(trueSolution - alpha).toFixed(20)}<br>`;
+                    k++;
+                } while (Math.abs(b - a) > epsilon);
+                text += `近似解：${alpha.toFixed(20)}<br>繰り返し回数：${k}回<br>提出：福嶋孝太<br>`;
+                document.getElementById("text").innerHTML = text;
+            }
+        </script>
+    </head>
+    <body onLoad="main()">
+        <div id="text"></div>
+    </body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>挟み打ち法</title>
+        <script type="text/javascript">
+            // 挟み打ち法アルゴリズム（3EI No.21 福嶋孝太）
+            const epsilon = 1e-10;
+            const trueSolution = 2;
+            const f = x => x * x - 4;
+            function main() {
+                // let x0 = 0, x1 = 5; // (1)
+                let x0 = 0, x1 = 20; // (2)
+
+                let k = 0;
+                let f_x0 = f(x0), f_x1 = f(x1);
+                let xNew = x1, f_xNew;
+                let xOld;
+                let text = "";
+                do {
+                    xOld = xNew;
+                    xNew = x1 - f_x1 * (x0 - x1) / (f_x0 - f_x1);
+                    f_xNew = f(xNew);
+                    if (f_x0 * f_xNew < 0) {
+                        x1 = xNew;
+                        f_x1 = f_xNew;
+                    } else {
+                        x0 = xNew;
+                        f_x0 = f_xNew;
+                    }
+                    text += `${Math.abs(trueSolution - xNew).toFixed(20)}<br>`;
+                    k++;
+                } while (Math.abs(xOld - xNew) > epsilon);
+                text += `近似解：${xNew.toFixed(20)}<br>繰り返し回数：${k}回<br>提出：福嶋孝太<br>`;
+                document.getElementById("text").innerHTML = text;
+            }
+        </script>
+    </head>
+    <body onLoad="main()">
+        <div id="text"></div>
+    </body>
+</html>
